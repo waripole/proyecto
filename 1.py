@@ -13,12 +13,36 @@ class MainWindow(Gtk.ApplicationWindow):
         super().__init__(*args, **kwargs)
 
         # Box principal
-        self.main_box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 6)
+        self.main_box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 6)
         self.set_child(self.main_box)
 
-        self.file_data = None
+        #para que se expanda el 
+        self.main_box.set_hexpand(True)
+        self.main_box.set_vexpand(True)        
 
 #---------------------------------------------------------------------
+    #Tree TreeView
+        data = []
+
+        self.liststore = Gtk.ListStore(str, str, str)
+        for data_ref in data:
+            self.liststore.append(list(data_ref))
+
+        treeview = Gtk.TreeView(model=self.liststore, vexpand=True)
+        treeview.connect('cursor_changed', self.on_cursor_changed)
+        treeview.set_hexpand(True)
+        treeview.set_vexpand(True)
+
+        for i, column_title in enumerate(['#', 'Nombre', 'Apellido', 'Estado']):
+            renderer = Gtk.CellRendererText()
+            # column = Gtk.TreeViewColumn(column_title, renderer, text=i)
+            column = Gtk.TreeViewColumn(title=column_title)
+            column.pack_start(renderer, False)
+            column.add_attribute(renderer, "text", i)
+            treeview.append_column(column)
+
+        self.main_box.append(treeview)
+        self.set_child(self.main_box)
 
 #---------------------------------------------------------------------
 
@@ -80,6 +104,16 @@ class MainWindow(Gtk.ApplicationWindow):
         self.about.set_version("1.0")
         self.about.set_logo_icon_name("chuu_do_loona")
         self.about.set_visible(True)
+
+    def on_cursor_changed(self, treeview):
+        treeselection = treeview.get_selection()
+        model, iter = treeselection.get_selected()
+
+        if iter:
+            print(
+                model.get_value(iter, 0),
+                model.get_value(iter, 1),
+                model.get_value(iter, 2))
 
 #.....................................................
 
