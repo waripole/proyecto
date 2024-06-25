@@ -1,5 +1,10 @@
 Plan de trabajo y objetivos:
 
+SIR
+	S: susceptibles
+	I: infectados
+	R: recuperados (vivos + muertos + inmunes)
+
 - definir clases necesarias (Simulador,
 							 Comunidad,
 							 Cuidadano,
@@ -53,6 +58,8 @@ Plan de trabajo y objetivos:
 	gauss/normal? jenesepà
 
 - objetivos:
+	
+	*no caer en la locura màxima
 
 	25 / junio -> estudiar modelo, 
 					buscar informaciòn (modelo SIR, pandas, numpy, matplotlib), 
@@ -75,6 +82,16 @@ Plan de trabajo y objetivos:
 					revisar uso de numpy y pandas
 
 					Fecha entrega (10/julio)
+
+- observaciones
+	
+	aplicar distribuciòn en los contagios
+	creaciòn de familias quizàs como array? jenesepà
+	basar id en apellido, nùmero de familia(i) y cantidad integrantes? mmm nose - crear id que no sea tipo i+1 -> crear mètodo/funciòn para la creaciòn del id
+	ojo probabilidad de que muera
+	arreglar contadores tipo total de x_ciudadanos (infectados, muertos, etc)
+
+
 
 
 * material de apoyo:
