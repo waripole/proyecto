@@ -1,7 +1,14 @@
 import pandas as pd
+import numpy as np
+
 from cuidadano import Cuidadano
+from enfermedad import Enfermedad
 
-
+"""Abrir el archivo con los nombres
+file = "lista.csv"
+data_frame = pd.read_csv(file)
+print(data_frame.head())
+"""
 
 class Comunidad:
 	#Atributos clase comunidad:
@@ -12,6 +19,10 @@ class Comunidad:
 		self._enfermedad = enfermedad
 		self._num_infectados = num_infectado
 		self._probabilidad_conexion_fisica = probabilidad_conexion_fisica
+		#agregar muertos
+
+		self._ciudadanos = self.crear_ciudadanos(archivo_cvs)
+
 
 #-----------------------------------------------------------
 	#Getters
@@ -53,32 +64,34 @@ class Comunidad:
 #-----------------------------------------------------------
 	#Mètodos
 
-	def crear_ciudadanos(self):
-		cuidadanos = [] 			#lista que contenga todos los ciudadanos
+	def crear_ciudadanos(self, archivo_cvs):
+		data_frame = pd.read_csv(archivo_cvs)
 
-		data_ciudadanos = pd.read_csv("nombres_apellidos.cvs")  #leer el cvs con pandas
+		#Array para contener a los ahora cuidadanos
+		array_ciudadanos = []
 
-		for i , row in data_ciudadanos.iterrows():
-			ciudadano = Cuidadano(ide = row['id'],					#Ingresarlos a la clase Cuidadano
+		#crear objeto de tipo Cuidadan con los paràmetros: comunidad, ide, nombre, apellido, familia, estado, enfermedad = None, inmune
+		for index, row in data_frame.iterrows():
+			ciudadano = Cuidadano(ide = row['id'],
 									nombre = row['nombre'],
 									apellido = row['apellido'],
-									comunidad = self)
+									comunidad = self,
+									estado = True,			#Estado incial de sano
+									enfermedad = None,		#Enfermedad inicial es ninguna
+									inmune = False)			#Parte como no-inmune
 
-			cuidadanos.append(ciudadano) #Agregar el ciudadano creado a la lista 
+			array_ciudadanos.append(ciudadano)
 
-		#Infectar a 12 de forma aleatorea
+		#probando
+		print(f"SE CREO UN SIUDADANO: id={ciudadano.get_ide()}, name={ciudadano.get_nombre()}, apellido={ciudadano.get_apellido()}, familia={ciudadano.get_familia()}, estado={ciudadano.get_estado()}, inmune?={ciudadano.get_inmune()}")
 
-		infectados = random.sample(ciudadanos, 12)
-
-		for ciudadano in infectados:
-			ciudadano.infectar(Enfermedad(self._enfermedad.get_infeccion_probable(),
-											self._enfermedad.get_promedio_pasos()))
-		return cuidadanos
-		
-
-	def actualizar_datos(self): #sano-infectado-muerto
+		return array_ciudadanos
+	
+	def infectar_random(self):
 		pass
 
-	def obtener_datos_comunidad(self):
+	def crear_familia(self):
+		#Familia segùn apellido maybe
 		pass
+
 
