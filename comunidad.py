@@ -13,15 +13,15 @@ print(data_frame.head())
 class Comunidad:
 	#Atributos clase comunidad:
 
-	def __init__(self,  num_cuidadano, promedio_conexion_fisica,enfermedad,num_infectados, probabilidad_conexion_fisica):
+	def __init__(self,  num_cuidadano, promedio_conexion_fisica,enfermedad,num_infectados, probabilidad_conexion_fisica, archivo_csv):
 		self._num_cuidadano = num_cuidadano		
 		self._promedio_conexion_fisica = promedio_conexion_fisica		
 		self._enfermedad = enfermedad
-		self._num_infectados = num_infectado
+		self._num_infectados = num_infectados
 		self._probabilidad_conexion_fisica = probabilidad_conexion_fisica
 		#agregar muertos
 
-		self._ciudadanos = self.crear_ciudadanos(archivo_cvs)
+		self._ciudadanos = self.crear_ciudadanos(archivo_csv)
 
 
 #-----------------------------------------------------------
@@ -64,17 +64,18 @@ class Comunidad:
 #-----------------------------------------------------------
 	#Mètodos
 
-	def crear_ciudadanos(self, archivo_cvs):
-		data_frame = pd.read_csv(archivo_cvs)
+	def crear_ciudadanos(self, archivo_csv):
+		data_frame = pd.read_csv(archivo_csv)
 
 		#Array para contener a los ahora cuidadanos
 		array_ciudadanos = []
 
 		#crear objeto de tipo Cuidadan con los paràmetros: comunidad, ide, nombre, apellido, familia, estado, enfermedad = None, inmune
 		for index, row in data_frame.iterrows():
-			ciudadano = Cuidadano(ide = row['id'],
-									nombre = row['nombre'],
-									apellido = row['apellido'],
+			ciudadano = Cuidadano(ide = row['id '],
+									nombre = row[' nombre '],
+									apellido = row[' apellido '],
+									familia = self,
 									comunidad = self,
 									estado = True,			#Estado incial de sano
 									enfermedad = None,		#Enfermedad inicial es ninguna
@@ -87,6 +88,12 @@ class Comunidad:
 
 		return array_ciudadanos
 	
+	#probando para ver si se imprimen correctamente - sim
+	def imprimir_cuidadanos(self):
+		for ciudadano in self._ciudadanos:
+			print(f"id={ciudadano.get_ide()}, name={ciudadano.get_nombre()}, apellido={ciudadano.get_apellido()}, familia={ciudadano.get_familia()}, estado={ciudadano.get_estado()}, inmune?={ciudadano.get_inmune()}")
+
+
 	def infectar_random(self):
 		pass
 
