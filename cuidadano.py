@@ -8,10 +8,11 @@ class Cuidadano:
 		self._ide = ide
 		self._nombre = nombre
 		self._apellido = apellido
-		self._familia = familia #?jenesepa
+		self._familia = [] #?jenesepa kisa mejor un array
 		self._estado = True						#bool - True (sano/muerto) / False(enfermo)
-		self._enfermedad = None					#enfermedad que tiene (va a tener)
+		self._enfermedad = None					#enfermedad que tiene (va a tener) ->[]
 		self._inmune = False					#si ya estuvo infectado luego es inmune
+
 #-----------------------------------------------------------
 	#Getters
 
@@ -26,6 +27,9 @@ class Cuidadano:
 
 	def get_apellido(self):
 		return self._apellido
+
+	def get_familia(self):			#este seria el grupo de contacto
+		return self._familia
 
 	def get_estado(self):
 		return self._estado
@@ -50,6 +54,9 @@ class Cuidadano:
 
 	def set_apellido(self, apellido):
 		self._apellido = apellido
+
+	def set_familia(self,familia):
+		self._familia = familia
 
 	def set_estado(self, estado):
 		self._estado = estado
@@ -96,3 +103,7 @@ class Cuidadano:
 		#si ya estuvo infectado, es inmune a contraer la enfermedad nuevamente
 		self.set_inmune() == True
 		return True
+
+	# OJO luego cambiar familia -> grupo / sìmil
+	def agregar_grupo_contacto(self, familia):
+		self._familia.append(familia)

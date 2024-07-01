@@ -9,10 +9,17 @@ talca = Comunidad( num_cuidadano = 1000, #error aber - estaba mal escroto
 					enfermedad = "covid",
 					num_infectados = 10,
 					probabilidad_conexion_fisica = 0.8,
-					archivo_csv = "lista.csv")
+					archivo_csv = "lista.csv",
+					u = 3,
+					sigma = 1.5)
+
+# Buscar una media y desviaciòn estandar para la cantidad de grupos
+# a los que pertenece una persona - las de arriba son feik
 
 #probando para ver si se crean correctamente - sim
 talca.imprimir_cuidadanos()
+
+talca.imprimir_grupos()
 
 sim = Simulador(talca)
 sim.set_comunidad(comunidad = talca )

@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import random
 
 from cuidadano import Cuidadano
 from enfermedad import Enfermedad
@@ -13,15 +14,32 @@ print(data_frame.head())
 class Comunidad:
 	#Atributos clase comunidad:
 
-	def __init__(self,  num_cuidadano, promedio_conexion_fisica,enfermedad,num_infectados, probabilidad_conexion_fisica, archivo_csv):
+	def __init__(self,  num_cuidadano, promedio_conexion_fisica,enfermedad,num_infectados, probabilidad_conexion_fisica, archivo_csv, u, sigma):
 		self._num_cuidadano = num_cuidadano		
-		self._promedio_conexion_fisica = promedio_conexion_fisica		
+
+		"""
+	El promedio de conexion fısica que tiene un ciudadano dentro de la comunidad.
+	La enfermedad se puede propagar solo por un ciudadano infectado haciendo una 
+	conexion fısica con otro ciudadano
+		"""		
+		
+		self._promedio_conexion_fisica = promedio_conexion_fisica 				# numero de contactos x dìa
 		self._enfermedad = enfermedad
 		self._num_infectados = num_infectados
-		self._probabilidad_conexion_fisica = probabilidad_conexion_fisica
+
+		self._probabilidad_conexion_fisica = probabilidad_conexion_fisica 		#contacto estrecho/familia kisas
 		#agregar muertos
 
 		self._ciudadanos = self.crear_ciudadanos(archivo_csv)
+
+		# Media y desviaciòn estandar de las familias de la comunidad
+		self._u = u
+		self._sigma = sigma
+
+		# Guardar la familia de c/u
+		self._familias = []
+
+		self.crear_familias()
 
 
 #-----------------------------------------------------------
@@ -42,6 +60,11 @@ class Comunidad:
 	def get_probabilidad_conexion_fisica(self):
 		return self._probabilidad_conexion_fisica
 
+	def get_media(self):
+		return self._media
+
+	def get_desviacion_estandar(self):
+		return self._desviacion_estandar
 
 #-----------------------------------------------------------
 	#Setters
@@ -60,6 +83,12 @@ class Comunidad:
 
 	def set_probabilidad_conexion_fisica(self, probabilidad_conexion_fisica):
 		self._probabilidad_conexion_fisica = probabilidad_conexion_fisica
+
+	def set_media(self, media):
+		self._media = media
+
+	def set_desviacion_estandar(self, desviacion_estandar):
+		self._desviacion_estandar = desviacion_estandar
 
 #-----------------------------------------------------------
 	#Mètodos
@@ -94,11 +123,80 @@ class Comunidad:
 			print(f"id={ciudadano.get_ide()}, name={ciudadano.get_nombre()}, apellido={ciudadano.get_apellido()}, familia={ciudadano.get_familia()}, estado={ciudadano.get_estado()}, inmune?={ciudadano.get_inmune()}")
 
 
+
 	def infectar_random(self):
 		pass
 
-	def crear_familia(self):
-		#Familia segùn apellido maybe
-		pass
+
+
+
+	# familia -> grupo
+
+	# okei esto mejor que haga un grupo x, no familia,
+	#es decir, se pueden repetir las personas, asi como mini grupos
+	def crear_familias(self):
+		# [] del nùmero de integrantes para cada grupo adoc a la media y desviaciòn estandar
+			# (meida - desviacion estandar - poblacion)
+		n_integrantes = np.random.normal(self._u, self._sigma, self._num_cuidadano)
+		# Redondear el numero y los pasa a entero
+		n_integrantes = np.round(n_integrantes).astype(int)
+
+		for ciudadano in self._ciudadanos:
+			#random.randit -> devuelve un numero entero seleccionado del rango especificado
+			# algùn determinante de en cuantos grupos puede estar una persona
+			# sg una noticia del t13 del 2015: entre 2.5 a 4 amigos entonces que
+			# la persona pueda estar entre a 1 a 3 grupos masomenos
+
+			#suponiendo media de 3 y desviaciòn estandar de 
+			numero_grupos = np.random.randint(0,2)
+
+			#algùn nùmero entre los la cantidad de numero de grupos
+			for _ in range(numero_grupos):
+
+				n_integrantes_grupo = n_integrantes[random.randint(0, len(n_integrantes) - 1)]
+
+				grupo = [ciudadano]
+
+				while len(grupo) < n_integrantes_grupo:
+
+					# Otra persona
+					ciudadano_i = random.choice(self._ciudadanos)
+
+					if ciudadano_i not in grupo:
+						grupo.append(ciudadano_i)
+
+				self._familias.append(grupo)
+
+
+		for grupo in self._familias:
+
+			for persona in grupo:
+
+				persona.agregar_grupo_contacto(grupo)
+
+
+	# esto quedaria biem en un cvs !!!
+	def imprimir_grupos(self):
+
+		"""
+		# idx -> index
+
+		for idx, val in enumerate(my_list):
+			print(idx, val)
+		"""
+
+		for idx, grupo, in enumerate(self._familias):
+			print("---------------------------------------")
+			print(f"Grupo nº {idx}")
+
+			for persona in grupo:
+				print(f"- id: {persona.get_ide()}")
+				print(f"- nombre: {persona.get_nombre()}")
+				print(f"- apellido: {persona.get_apellido()}")
+				print(f"- estado: {persona.get_estado()}")
+
+				print("............")
+
+
 
 
