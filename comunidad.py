@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import random
+import csv
 
 from cuidadano import Cuidadano
 from enfermedad import Enfermedad
@@ -10,6 +11,8 @@ file = "lista.csv"
 data_frame = pd.read_csv(file)
 print(data_frame.head())
 """
+
+# UTILIZAR BIEN LOS TIPOS DE ATRIBUTOS (ESPECIFCAR)
 
 class Comunidad:
 	#Atributos clase comunidad:
@@ -136,8 +139,6 @@ class Comunidad:
 
 
 
-
-	# Que infecte primero y luego se creen las mini comunidades haber si hay algùn infectado dentro
 	def infectar_random(self):
 
 		"""
@@ -158,11 +159,9 @@ class Comunidad:
 			a = a + 1
 
 
-
-
-
-
-
+	#Contagiar nose xd al resto 
+	def contagiar_grupo(self):
+		pass
 
 
 # familia -> grupo
@@ -192,8 +191,6 @@ class Comunidad:
 		n_integrantes = np.round(n_integrantes).astype(int)
 
 		for ciudadano in self._ciudadanos:
-
-
 
 			"""
 
@@ -260,6 +257,9 @@ class Comunidad:
 				print("............")
 
 
+
+
+
 # Esto por cada --step--
 
 	def get_susceptibles(self):
@@ -314,3 +314,17 @@ class Comunidad:
 				n_recuperados = n_recuperados - 1
 
 		print(f"Numero de ciudadanos recuperados: {n_recuperados}")
+
+
+# Este (o un sìmil) utilizarlo para la APP kisas
+	def cvs_actualizado(self):
+
+		with open("cvs_actualizado", 'w', newline="") as file:
+
+			writer = csv.writer(file)
+			writer.writerow(["ide", "nombre", "apellido", "estado"])
+
+			for ciudadano in self._ciudadanos:
+				writer.writerow([ciudadano.get_ide(),ciudadano.get_nombre(),ciudadano.get_apellido(),ciudadano.get_estado()])
+
+		print("Archivo cvs actualizado")

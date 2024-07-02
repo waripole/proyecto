@@ -27,6 +27,8 @@ talca.get_susceptibles()
 talca.get_infectados()
 talca.get_recuperados()
 
+talca.cvs_actualizado()
+
 sim = Simulador(talca)
 sim.set_comunidad(comunidad = talca )
 #sim.run(pasos = 45)
