@@ -3,15 +3,16 @@ from enfermedad import Enfermedad
 class Cuidadano:
 	#Atributos clase ciuadadno:
 
-	def __init__(self, comunidad, ide, nombre, apellido, familia, estado = True, enfermedad = None, inmune = False):
+	def __init__(self, comunidad, ide, nombre, apellido, familia, estado = True, enfermedad = None, inmune = False, muerto = False):
 		self._comunidad = comunidad
 		self._ide = ide
 		self._nombre = nombre
 		self._apellido = apellido
-		self._familia = [] #?jenesepa kisa mejor un array
+		self._familia = []
 		self._estado = True						#bool - True (sano/muerto) / False(enfermo)
 		self._enfermedad = None					#enfermedad que tiene (va a tener) ->[]
 		self._inmune = False					#si ya estuvo infectado luego es inmune
+		self._muerto = False
 
 #-----------------------------------------------------------
 	#Getters
@@ -28,7 +29,7 @@ class Cuidadano:
 	def get_apellido(self):
 		return self._apellido
 
-	def get_familia(self):			#este seria el grupo de contacto
+	def get_familia(self):			#este seria el grupo de contacto 
 		return self._familia
 
 	def get_estado(self):
@@ -39,6 +40,9 @@ class Cuidadano:
 
 	def get_inmune(self):
 		return self._inmune
+
+	def get_muerto(self):
+		return self._muerto
 
 #-----------------------------------------------------------
 	#Setters
@@ -66,6 +70,9 @@ class Cuidadano:
 
 	def set_inmune(self, inmune):
 		self._inmune = inmune
+
+	def set_muerto(self, muerto):
+		self._muerto = muerto
 
 #-----------------------------------------------------------
 	#Mètodos
@@ -107,3 +114,7 @@ class Cuidadano:
 	# OJO luego cambiar familia -> grupo / sìmil
 	def agregar_grupo_contacto(self, familia):
 		self._familia.append(familia)
+
+	def esta_muerto(self):
+		self.set_muerto() == True
+		return True
