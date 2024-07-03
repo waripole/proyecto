@@ -43,6 +43,16 @@ class Comunidad:
 		# Guardar la familia de c/u
 		self._familias = []
 
+		"""
+		mejor agregar otros atributos de:
+			- susceptibles
+			- infectados
+			- recuperados
+			- muertos
+			- inmunes
+		que sean listas
+		"""
+
 		self.crear_familias()
 
 		self.infectar_random()
@@ -163,7 +173,7 @@ class Comunidad:
 
 	def crear_familias(self):
 		"""
-		necesitamos:
+		se necesita:
 			- numero de integrantes en un grupo
 			- numero de grupos a los que puede pertenecer un ciudadano (sample)
 			- largo de los grupos
@@ -172,12 +182,14 @@ class Comunidad:
 			- agregar el grupo a los grupoS (Comunidad)
 
 		"""
-
+		# El nùmero de integrantes por grupo se genera de acuerdo a una media y desviaciòn estàndar
+		# feik (u=3 y d.e.=1.5)
 		numero_integrantes_x_grupo = np.random.normal(self._u, self._sigma, self._num_cuidadano)
 		numero_integrantes_x_grupo = np.round(numero_integrantes_x_grupo).astype(int)
 
 		for ciudadano in self._ciudadanos:
 
+			# Nùmero de grupos a los que puede pertenecer un ciudadano se genera al azar entre 0,1,2 o 3
 			numero_grupos_x_ciudadano = np.random.randint(0, 4)
 
 			for i in range(numero_grupos_x_ciudadano):
@@ -198,6 +210,7 @@ class Comunidad:
 
 					self._familias.append(grupo)
 
+		# Le agrega el grupo al ciudadano (le asigna)
 		for grupo in self._familias:
 
 			for ciudadano in grupo:
@@ -205,7 +218,6 @@ class Comunidad:
 				ciudadano.agregar_grupo_contacto(grupo)
 
 		return self._familias
-
 
 
 	# esto quedaria biem en un cvs !!!
@@ -229,6 +241,8 @@ class Comunidad:
 				print(f"- estado: {persona.get_estado()}")
 
 				print("............")
+
+
 
 
 	# ERROR - infecta a dos veces al mismo
@@ -272,13 +286,13 @@ class Comunidad:
 
 								grupo.append(ciudadano)
 
-								print(f"{ciudadano.get_ide()} infectò a {cuidadano_contagiado.get_ide()}")
+								#print(f"{ciudadano.get_ide()} infectò a {cuidadano_contagiado.get_ide()}")
 
 	
 
 
 # De acuerdo a los pasos (18) que un infectado tenga prob de morir o sanarse --tmb c/u paso
-	def morir_o_sanar(self):
+	def morir_o_no(self):
 
 		"""
 		el ciudadano puede morir en cualquier transcurso de los 18 dias (o x dìas)
@@ -292,10 +306,12 @@ class Comunidad:
 		"""
 		#por cada paso...
 
+		ciudadanos_infectados = np.array([])
+
 		for ciudadano in self._ciudadanos:
 			if ciudadano.get_estado() == False:
 
-				ciudadanos_infectados = np.append(ciudadano)
+				ciudadanos_infectados = np.append(ciudadanos_infectados, ciudadano)
 
 		for ciudadano in ciudadanos_infectados:
 
@@ -307,15 +323,32 @@ class Comunidad:
 				opcion_selecionada = np.random.choice(opciones, p=probabilidades)
 
 				if opcion_selecionada == "muere":
-					cuidadano.set_estado(True)
-					#ciudadano.set_muerto(True)
-					ciudado.esta_muerto()
+					ciudadano.set_estado(True)
+					ciudadano.esta_muerto()
+
+					self._muertos = self._muertos + 1
 
 					#ahora seria necesario quitarlo de los grupos
 					#kapas de los ciudadanos tambièn - nose xd
 
+		#print(f"Ciudadanos muertos: {self.get_muertos()}")
 
-		pass
+	def ciudadanos_inmunes(self):
+
+		ciudadanos_inmunes = np.array([])
+
+		for ciudadano in self._ciudadanos:
+
+			if not ciudadano.get_estado():
+
+				ciudadano.inmune()
+
+				ciudadanos_inmunes = np.append(ciudadanos_inmunes, ciudadano)
+
+		print(f"Ciudadanos inmunes (dia 18): {ciudadanos_inmunes}")
+
+
+
 
 #-------------------------------------------------------------------------------c/u paso
 
@@ -366,9 +399,9 @@ class Comunidad:
 
 				n_recuperados = n_recuperados + 1
 
-			elif ciudadano.get_muerto() == True:
+			#elif ciudadano.get_muerto() == True:
 
-				n_recuperados = n_recuperados - 1
+			#	n_recuperados = n_recuperados - 1
 
 		print(f"Numero de ciudadanos recuperados: {n_recuperados}")
 

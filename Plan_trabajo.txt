@@ -1,9 +1,14 @@
 Plan de trabajo y objetivos:
 
+* revisar la inmunidad una vez infectados
+	capaz hacer una lista con los susceptibles y una vez infectados ir
+	quitàndolos de la lista
+
+
 SIR
 	S: susceptibles
 	I: infectados
-	R: recuperados (vivos + muertos + inmunes)
+	R: recuperados (vivos + muertos + inmunes) - sòlo muertos e inmunes
 
 - definir clases necesarias (Simulador,
 							 Comunidad,
@@ -12,6 +17,7 @@ SIR
 							 main)
 
 - definir atributos para cada clase
+
 	Simulador: comunidad
 
 	Comunidad: num_cuidadano,
@@ -31,7 +37,7 @@ SIR
 
 	Enfermedad: infeccion_probable,
 				promedio_pasos,
-				enfermo,
+				enfermo ?,
 				contador
 
 
@@ -54,7 +60,8 @@ SIR
 
 	Enfermedad: step,
 
-- definir/usar un tipo de distribuciòn 
+- definir/usar un tipo de distribuciòn
+
 	gauss/normal? jenesepà
 
 - objetivos:
@@ -85,17 +92,25 @@ SIR
 
 - observaciones
 	
-	aplicar distribuciòn en los contagios
-	creaciòn de familias quizàs como array? jenesepà
+	aplicar modelo SIR
+	pasos -> dìas
+
+
 	basar id en apellido, nùmero de familia(i) y cantidad integrantes? mmm nose - crear id que no sea tipo i+1 -> crear mètodo/funciòn para la creaciòn del id
 	ojo probabilidad de que muera
 	arreglar contadores tipo total de x_ciudadanos (infectados, muertos, etc)
+	cada step ir cambiando el cvs usado para la interfàz tipo actualizar
+	determinar promedio de conexiones con x personas
+	pacientes 0
+
 
 
 
 
 * material de apoyo:
-
+	
+	https://pythontutor.com/render.html#mode=edit
+	
 	https://www.youtube.com/watch?v=mwJXjxMTwAw
 
 	https://scientific-python.readthedocs.io/en/latest/notebooks_rst/3_Ordinary_Differential_Equations/02_Examples/Epidemic_model_SIR.html
@@ -111,3 +126,19 @@ SIR
 	https://youtu.be/5ftC7ctqwxk?si=dMtGs_ZdpZ28rPQi
 
 	https://youtu.be/E0oMehjzEVQ?si=DxMXQmEjKE1ChQFm
+
+
+
+
+
+
+*	yo estaba pensando q tipo se hagan familias por apellido 
+	de eso sacar como la cantidad de contactos "estrechos" -> aumenta la prob
+
+	tipo prob de q se enferme con contacto dela comunida (%x)
+	y aumente 
+
+	* distribuciòn normal random con numpy / similar al gauss
+	numpy.random tb tb()
+
+	a.normal(size=10) #muestra de 10 elementos

@@ -20,17 +20,25 @@ talca = Comunidad( num_cuidadano = 1000,
 #probando para ver si se crean correctamente - sim
 talca.imprimir_cuidadanos()
 
-talca.imprimir_grupos()
+#talca.imprimir_grupos()
 
 
 #for i in range(start, stop, step)
+dia = 0
+for i in range(0, 20, 1):
+	dia = dia + 1
+	if i == 18:
+		talca.ciudadanos_inmunes()
 
-for i in range(0, 3, 1):
 	# Que por cada paso se impriman estos;
 	talca.get_susceptibles()
 	talca.get_infectados()
 	talca.get_recuperados()
 	talca.contagiar_grupo()
+	talca.morir_o_no()
+
+	print(f"HOLA SOY EL DIA: {dia}")
+
 
 talca.cvs_actualizado()
 
