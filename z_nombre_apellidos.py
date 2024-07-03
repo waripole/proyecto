@@ -11,7 +11,21 @@ nombres = ["Gloria", "Isidora", "Florencia", "Antonella", "Emilia", "Martina", "
     "Maximiliano", "Vicente", "Gabriel", "Emilio", "Cristóbal", "Renato", "Felipe", "Samuel", "Emiliano", "Diego",
     "Francisco", "Daniel", "Andrés", "Leonardo", "Pablo", "Simón", "Miguel", "Alejandro", "Damián", "Javier",
     "Nicolás", "Bruno", "Rodrigo", "Antonio", "Pedro", "Álvaro", "Esteban", "Rafael", "Ignacio", "Raúl",
-    "Arturo", "Sergio", "Eduardo", "Enzo", "Ricardo", "Hernán", 'Ian', "Juan", "Hugo", "Carlos"]
+    "Arturo", "Sergio", "Eduardo", "Enzo", "Ricardo", "Hernán", 'Ian', "Juan", "Hugo", "Carlos",
+    "Alexandre", "Antoine", "Baptiste", "Benoît", "Charles", "Christophe", "Clément", "Damien", "Daniel", "David",
+    "Denis", "Didier", "Édouard", "Émile", "Emmanuel", "Étienne", "Fabien", "François", "Frédéric", "Gabriel",
+    "Gaëtan", "Georges", "Guillaume", "Henri", "Hugo", "Jacques", "Jean", "Jérôme", "Julien", "Laurent",
+    "Louis", "Lucas", "Marc", "Martin", "Mathieu", "Michel", "Nicolas", "Olivier", "Pascal", "Patrick",
+    "Paul", "Philippe", "Pierre", "Quentin", "Raphaël", "Raymond", "Rémi", "René", "Richard", "Robert",
+    "Romain", "Samuel", "Sébastien", "Simon", "Stéphane", "Théo", "Thomas", "Timothée", "Tristan", "Victor",
+    "Adèle", "Agnès", "Alice", "Amélie", "Anaïs", "Anne", "Audrey", "Aurélie", "Aurore", "Camille",
+    "Caroline", "Catherine", "Cécile", "Chantal", "Charlotte", "Christine", "Claire", "Clara", "Coralie", "Corinne",
+    "Delphine", "Élise", "Élodie", "Émilie", "Emma", "Estelle", "Fanny", "Florence", "Françoise", "Gabrielle",
+    "Geneviève", "Hélène", "Inès", "Isabelle", "Jacqueline", "Jeanne", "Joséphine", "Julie", "Juliette", "Laetitia",
+    "Laurence", "Léa", "Liliane", "Louise", "Madeleine", "Manon", "Margaux", "Marguerite", "Marie", "Marine",
+    "Marion", "Martine", "Mathilde", "Mélanie", "Monique", "Nadine", "Nathalie", "Nicole", "Océane", "Odile",
+    "Olivia", "Patricia", "Pauline", "Renée", "Sandrine", "Sophie", "Suzanne", "Thérèse", "Valérie", "Véronique",
+    "Virginie", "Yvonne"]
 
 
 apellidos = ["Mieres", "Muñoz", "Rojas", "Díaz", "Pérez", "Soto", "Contreras", "Silva", "Martínez", "Sepúlveda",
@@ -23,11 +37,25 @@ apellidos = ["Mieres", "Muñoz", "Rojas", "Díaz", "Pérez", "Soto", "Contreras"
     "Vidal", "Parra", "Salinas", "Moreno", "Ortiz", "Gallardo", "Palma", "Vera", "Navarro", "Ramos",
     "Serrano", "Valdés", "Peña", "San Martín", "Cornejo", "Pineda", "Ávila", "Montoya", "Bustos", "Leiva",
     "Cabrera", "Alvarado", "Vega", "Sáez", "Donoso", "Poblete", "Cáceres", "Mejías", "Villanueva", "Vergara",
-    "Farías", "Campos", "Mora", "Venegas", "Godoy", "Mendoza", "Rojas", "Ojeda", "Chávez", "Aguilera"]
+    "Farías", "Campos", "Mora", "Venegas", "Godoy", "Mendoza", "Rojas", "Ojeda", "Chávez", "Aguilera",
+    "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez",
+    "Hernandez", "Lopez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee",
+    "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", "Ramirez", "Lewis", "Robinson", "Walker",
+    "Young", "Allen", "King", "Wright", "Scott", "Torres", "Nguyen", "Hill", "Flores", "Green",
+    "Adams", "Nelson", "Baker", "Hall", "Rivera", "Campbell", "Mitchell", "Carter", "Roberts", "Gomez",
+    "Phillips", "Evans", "Turner", "Diaz", "Parker", "Cruz", "Edwards", "Collins", "Reyes", "Stewart",
+    "Morris", "Morales", "Murphy", "Cook", "Rogers", "Gutierrez", "Ortiz", "Morgan", "Cooper", "Peterson",
+    "Bailey", "Reed", "Kelly", "Howard", "Ramos", "Kim", "Cox", "Ward", "Richardson", "Watson",
+    "Brooks", "Chavez", "Wood", "James", "Bennett", "Gray", "Mendoza", "Ruiz", "Hughes", "Price",
+    "Alvarez", "Castillo", "Sanders", "Patel", "Myers", "Long", "Ross", "Foster", "Jimenez", "Powell",
+    "Jenkins", "Perry", "Russell", "Sullivan", "Bell", "Coleman", "Butler", "Henderson", "Barnes", "Gonzalez",
+    "Fisher", "Vasquez", "Simmons", "Romero", "Jordan", "Patterson", "Alexander", "Hamilton", "Graham", "Reynolds",
+    "Griffin", "Wallace", "Moreno", "West", "Cole", "Hayes", "Bryant", "Herrera", "Gibson", "Ellis",
+    "Tran", "Medina", "Aguilar", "Stevens", "Murray", "Ford", "Castro", "Marshall", "Owens", "Harrison"]
 
 # Generar 1000 nombres y apellidos aleatorios
-nombres_aleatorios = random.choices( nombres , k =1000)
-apellidos_aleatorios = random.choices( apellidos , k =1000)
+nombres_aleatorios = random.choices( nombres , k =20000)
+apellidos_aleatorios = random.choices( apellidos , k =20000)
 
 # Crear lista de nombres y apellidos combinados
 #nombres_apellidos = list(zip( nombres_aleatorios , apellidos_aleatorios ))
@@ -36,7 +64,7 @@ apellidos_aleatorios = random.choices( apellidos , k =1000)
 ide_nombres_apellidos = [(f'{i+1}', nombre, apellido) for i, (nombre, apellido) in enumerate(zip(nombres_aleatorios, apellidos_aleatorios))]
 
 # Escribir los nombres y apellidos en un archivo CSV
-with open(" ide_nombres_apellidos.csv ", "w", newline ="") as file :
+with open("lista.csv", "w", newline ="") as file :
 
 	writer = csv.writer(file)
 	writer.writerow(["id " , " nombre ", " apellido "])
