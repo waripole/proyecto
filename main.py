@@ -6,7 +6,7 @@ covid = Enfermedad( infeccion_probable = 0.3 , promedio_pasos = 18, enfermo = Fa
 
 talca = Comunidad( num_cuidadano = 1000,
 					promedio_conexion_fisica = 8,
-					enfermedad = "covid",
+					enfermedad = covid,
 					num_infectados = 10,
 					probabilidad_conexion_fisica = 0.8,
 					muertos = 0,
@@ -22,12 +22,21 @@ talca.imprimir_cuidadanos()
 
 talca.imprimir_grupos()
 
-# Que por cada paso se impriman estos;
+
+#for i in range(start, stop, step)
+
+for i in range(0, 3, 1):
+	# Que por cada paso se impriman estos;
+	talca.get_susceptibles()
+	talca.get_infectados()
+	talca.get_recuperados()
+	talca.contagiar_grupo()
+
+talca.cvs_actualizado()
+
 talca.get_susceptibles()
 talca.get_infectados()
 talca.get_recuperados()
-
-talca.cvs_actualizado()
 
 sim = Simulador(talca)
 sim.set_comunidad(comunidad = talca )
