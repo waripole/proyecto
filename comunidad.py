@@ -159,79 +159,53 @@ class Comunidad:
 			a = a + 1
 
 
-	#Contagiar nose xd al resto 
-	def contagiar_grupo(self):
-		pass
-
-
 # familia -> grupo
 
 	def crear_familias(self):
+		"""
+		necesitamos:
+			- numero de integrantes en un grupo
+			- numero de grupos a los que puede pertenecer un ciudadano (sample)
+			- largo de los grupos
+			- que se completen los grupos (y no este el 1er ciudadano)
+			- asignar el grupo al ciudadano (agregar_grupo_contacto/set_familia)
+			- agregar el grupo a los grupoS (Comunidad)
 
 		"""
-		Hacer mini grupos como el ejemplo del profe de:
 
-		p1 = [p2,p3,p5]
-		p2 = [p1,p3]
-		p3 = [p1,p2,p9]
-		p4 = [p7]
-		p5 = [p1,p6,p8]
-
-		sgy cada grupo debiera crearse simil a una familia, es decir con una 
-		media y desviaciòn estandar pero (por el momento) no he encontrado
-		info al respecto asì que le puse media de 3 y desviaciòn estandar 1.5
-
-		- Un arreglo[] del nùmero de integrantes para cada grupo adoc a la media y desviaciòn estandar
-		"""
-
-		# Agumentos que toma np.random.normal: media, desviaciòn estandar, cantidad cuidadanos
-		n_integrantes = np.random.normal(self._u, self._sigma, self._num_cuidadano)
-
-		# Redondear el numero y los pasa a entero
-		n_integrantes = np.round(n_integrantes).astype(int)
+		numero_integrantes_x_grupo = np.random.normal(self._u, self._sigma, self._num_cuidadano)
+		numero_integrantes_x_grupo = np.round(numero_integrantes_x_grupo).astype(int)
 
 		for ciudadano in self._ciudadanos:
 
-			"""
+			numero_grupos_x_ciudadano = np.random.randint(0, 4)
 
-			random.randit -> devuelve un nùmero entero seleccionado del rango especìfico
+			for i in range(numero_grupos_x_ciudadano):
 
-			* algùn determinante de en cuantos grupos puede estar una persona, segùn una noticia
-			del T13 (2015) las personas en chile tienen entre 2.5 a 4 amigos, entonces que la
-			la persona pueda estar entre 1 a 3 grupos
-
-			--- kisas esto se podrìa cambiar por "promedio_conexion_fisica" --- Preguntar Londro 
-
-			"""
-
-			#suponiendo media de 3 y desviaciòn estandar de 1.5
-
-			numero_grupos = np.random.randint(0,2)
-
-			
-			#el ciclo pasa 'numero_grupos' veces
-			for i in range(numero_grupos):
-
-				n_integrantes_grupo = n_integrantes[random.randint(0, len(n_integrantes) - 1)]
-
+				#seleccionar un numero aleatorio dentro de los numeros de la lissta
+				tamano_grupo = numero_integrantes_x_grupo[random.randint(0, len(numero_integrantes_x_grupo)-1)]
+				
 				grupo = [ciudadano]
 
-				while len(grupo) < n_integrantes_grupo:
+				# Agregar ciudadanos al grupo hasta que se ocupen todos los espacios
+				while len(grupo) < tamano_grupo:
 
-					# Otra persona
 					ciudadano_i = random.choice(self._ciudadanos)
 
-					if ciudadano_i not in grupo:
+					if ciudadano_i != ciudadano and ciudadano_i not in grupo:
+
 						grupo.append(ciudadano_i)
 
-				self._familias.append(grupo)
-
+					self._familias.append(grupo)
 
 		for grupo in self._familias:
 
-			for persona in grupo:
+			for ciudadano in grupo:
 
-				persona.agregar_grupo_contacto(grupo)
+				ciudadano.agregar_grupo_contacto(grupo)
+
+		return self._familias
+
 
 
 	# esto quedaria biem en un cvs !!!
@@ -257,10 +231,93 @@ class Comunidad:
 				print("............")
 
 
+	# ERROR - infecta a dos veces al mismo
+	def contagiar_grupo(self):
+			"""
+			si hay un contagiado en el grupo, se elige otro al azar y segùn una probabilidad
+			lo contagia
+
+			contagiarse -> infeccion_probable
+
+			opciones = [contagiarse, no contagiarse]
+			probabilidades = [0.3, 0.7]
 
 
+			seleccion = np.random.choice(opciones, p=probabilidades)
 
-# Esto por cada --step--
+			"""
+
+			for grupo in self._familias:
+
+				for ciudadano in grupo:
+
+					if grupo:		
+						if ciudadano.get_estado() == False:		#hay uno enfermo
+
+
+							cuidadano_contagiado = np.random.choice(grupo)	#elegir un random del grupo para contagiarlo
+
+							if cuidadano_contagiado.get_ide() != ciudadano.get_ide() and cuidadano_contagiado.get_estado() == True:
+
+								opciones = ["contagiado", None]
+
+								infeccion_probable = self._enfermedad.get_infeccion_probable()
+
+								probabilidades = [infeccion_probable, 1 - infeccion_probable]
+
+								opcion_selecionada = np.random.choice(opciones, p=probabilidades)
+
+								if opcion_selecionada == "contagiado":
+									cuidadano_contagiado.set_estado(False)
+
+								grupo.append(ciudadano)
+
+								print(f"{ciudadano.get_ide()} infectò a {cuidadano_contagiado.get_ide()}")
+
+	
+
+
+# De acuerdo a los pasos (18) que un infectado tenga prob de morir o sanarse --tmb c/u paso
+	def morir_o_sanar(self):
+
+		"""
+		el ciudadano puede morir en cualquier transcurso de los 18 dias (o x dìas)
+		darle una prob para morir c/dìa, por ejemplo (0.3)
+
+		si ya pasaron los 18 dìas (o x dìas), el ciudadano se habrà recuperado y
+		serà inmune
+		
+		True = vivo/muerto
+		False = contagiado
+		"""
+		#por cada paso...
+
+		for ciudadano in self._ciudadanos:
+			if ciudadano.get_estado() == False:
+
+				ciudadanos_infectados = np.append(ciudadano)
+
+		for ciudadano in ciudadanos_infectados:
+
+			if ciudadano:
+
+				opciones = ["vive", "muere"]
+				probabilidades = [0.1, 0.9]
+
+				opcion_selecionada = np.random.choice(opciones, p=probabilidades)
+
+				if opcion_selecionada == "muere":
+					cuidadano.set_estado(True)
+					#ciudadano.set_muerto(True)
+					ciudado.esta_muerto()
+
+					#ahora seria necesario quitarlo de los grupos
+					#kapas de los ciudadanos tambièn - nose xd
+
+
+		pass
+
+#-------------------------------------------------------------------------------c/u paso
 
 	def get_susceptibles(self):
 		"""
@@ -270,7 +327,7 @@ class Comunidad:
 		Por c/u ciudadano en la comunidad, si està sano (o muerto - ver eso xd)
 		+1 la cantidad de susceptibles
 
-		--- Esto deberìa ser por c/u paso ---
+		--- Esto deberìa ser por c/u paso (y todas)---
 
 		"""
 
