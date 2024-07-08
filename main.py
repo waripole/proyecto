@@ -14,11 +14,12 @@ talca = Comunidad( num_cuidadano = 100,
 					u = 3,
 					sigma = 1.5)
 
-#Probando para ver si se crean correctamente - sim
+# Probando para ver si se crean correctamente - sim
 #talca.imprimir_cuidadanos()
+#talca.imprimir_grupos()
 
-talca.imprimir_grupos()
-
+# Primeros infectados
+talca.infectar_random()
 
 #for i in range(start, stop, step)
 dias = 0
