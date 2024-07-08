@@ -45,8 +45,6 @@ class Comunidad:
 
 		self.crear_familias()
 
-		self.infectar_random()
-
 
 #-----------------------------------------------------------
 	#Getters
@@ -142,7 +140,6 @@ class Comunidad:
 			print(f"id={ciudadano.get_ide()}, name={ciudadano.get_nombre()}, apellido={ciudadano.get_apellido()}, familia={ciudadano.get_familia()}, estado={ciudadano.get_estado()}, inmune?={ciudadano.get_inmune()}")
 
 
-#++++++++++
 	def infectar_random(self):
 
 		a = 0
@@ -157,10 +154,11 @@ class Comunidad:
 
 					ciudadano.set_estado(False)
 					ciudadano.set_infectado(True)
+					ciudadano.set_dias_enfermo(1)
 
 					print(f"infectado ({a}) inicial el wons: {ciudadano.get_ide()} que se llama {ciudadano.get_nombre()} {ciudadano.get_apellido()}")
 			
-					a = a + 1
+			a = a + 1
 
 
 # familia -> grupo
@@ -175,49 +173,10 @@ class Comunidad:
 			- asignar el grupo al ciudadano (agregar_grupo_contacto/set_familia)
 			- agregar el grupo a los grupoS (Comunidad)
 
-
 			kreo que se podrìà hacer màs fàcil eligiendo un largo random para los grupos y
 			que se eliga al azar de los ciudadanos q vayan dentro 
 			# 8 y x numero (ej1.5)
 
-
-		# El nùmero de integrantes por grupo se genera de acuerdo a una media y desviaciòn estàndar
-		# feik (u=3 y d.e.=1.5) -> kisa la media deberìa ser el promedio de conexiones
-		numero_integrantes_x_grupo = np.random.normal(self._promedio_conexion_fisica, self._sigma, self._num_cuidadano)
-		numero_integrantes_x_grupo = np.round(numero_integrantes_x_grupo).astype(int)
-		numero_integrantes_x_grupo = numero_integrantes_x_grupo[numero_integrantes_x_grupo > 0]
-
-		max_grupos_x_ciudadano = 2
-
-		for ciudadano in self._ciudadanos:
-
-			# Nùmero de grupos a los que puede pertenecer un ciudadano se genera al azar entre 0,1,2 o 3
-			numero_grupos_x_ciudadano = np.random.randint(0, max_grupos_x_ciudadano + 1)
-
-			# De acuerdo a tantos grupos tenga un ciudadano, se forma esa cantidad de grupos para la persona
-			for i in range(numero_grupos_x_ciudadano):
-
-				#seleccionar un numero aleatorio dentro de los numeros de la lissta
-				#CAMBIAR - esto a lo que dijo el profe de un random entre promedio_conexiones
-
-				tamano_grupo = numero_integrantes_x_grupo[random.randint(0, len(numero_integrantes_x_grupo)-1)]
-				
-				grupo = [ciudadano]
-
-				# Agregar ciudadanos al grupo hasta que se ocupen todos los espacios
-				while len(grupo) < tamano_grupo:
-
-					ciudadano_i = random.choice(self._ciudadanos)
-
-					if ciudadano_i != ciudadano and ciudadano_i not in grupo:
-
-						grupo.append(ciudadano_i)
-
-					self._familias.append(grupo)
-
-		ciudadano.agregar_grupo_contacto(grupo)
-
-		return self._familias
 		"""
 #----------------------------------------------------
 
@@ -243,10 +202,6 @@ class Comunidad:
 			ciudadano.agregar_grupo_contacto(grupo)
 
 		return self._familias
-
-
-
-
 
 
 
@@ -305,8 +260,8 @@ class Comunidad:
 	def morir_o_no(self):
 
 		"""
-		el ciudadano puede morir en cualquier transcurso de los pasos (o dìas)
-		darle una prob para morir c/dìa, por ejemplo (0.3)
+		el ciudadano puede morir en cualquier transcurso de los pasos (dìas)
+		darle una prob para morir c/dìa
 		"""
 
 		opciones = ["vive", "muere"]
@@ -344,10 +299,8 @@ class Comunidad:
 
 				ciudadano.aumentar_dias_enfermo()
 
-				print(f"El ciudadano con ide: {ciudadano.get_ide()} lleva {ciudadano.get_dias_enfermo()} dias enfermo")
+				#print(f"El ciudadano con ide: {ciudadano.get_ide()} lleva {ciudadano.get_dias_enfermo()} dias enfermo")
 
-
-#nose mal parece nose nome gusta - que sea segun los x dias de promedio pasos
 
 	def ciudadanos_inmunes(self, Enfermedad):
 
@@ -361,7 +314,7 @@ class Comunidad:
 				ciudadano.set_infectado(False)
 				ciudadano.set_susceptible(False)
 
-				print(f"el wn con ide {ciudadano.get_ide()} està recuperado")
+				#print(f"el persona con ide {ciudadano.get_ide()} està recuperado")
 
 
 
@@ -438,6 +391,6 @@ class Comunidad:
 			writer.writerow(["ide", "nombre", "apellido", "Susceptible", "Infectado", "Recuperado"])
 
 			for ciudadano in self._ciudadanos:
-				writer.writerow([ciudadano.get_ide(),ciudadano.get_nombre(),ciudadano.get_apellido(),ciudadano.get_susceptible(), ciudadano.get_infectado(), ciudadano.get_recuperado])
+				writer.writerow([ciudadano.get_ide(),ciudadano.get_nombre(),ciudadano.get_apellido(),ciudadano.get_susceptible(), ciudadano.get_infectado(), ciudadano.get_recuperado()])
 
 		print("Archivo cvs actualizado")
