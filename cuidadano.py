@@ -3,7 +3,7 @@ from enfermedad import Enfermedad
 class Cuidadano:
 	#Atributos clase ciuadadno:
 
-	def __init__(self, comunidad, ide, nombre, apellido, familia, estado = True, enfermedad = None, inmune = False, muerto = False):
+	def __init__(self, comunidad, ide, nombre, apellido, familia, estado = True, enfermedad = None, inmune = False, muerto = False, susceptible = True, infectado = False, recuperado = False, dias_enfermo = 0):
 		self._comunidad = comunidad
 		self._ide = ide
 		self._nombre = nombre
@@ -13,6 +13,13 @@ class Cuidadano:
 		self._enfermedad = None					#enfermedad que tiene (va a tener) ->[]
 		self._inmune = False					#si ya estuvo infectado luego es inmune
 		self._muerto = False
+
+		#+atributos SIR
+		self._susceptible = True				# todos susceptibles al inicio
+		self._infectado = False					# al inicio NO està infectado
+		self._recuperado = False				# al inicio no està recuperado 
+
+		self._dias_enfermo = dias_enfermo
 
 #-----------------------------------------------------------
 	#Getters
@@ -44,6 +51,18 @@ class Cuidadano:
 	def get_muerto(self):
 		return self._muerto
 
+	def get_susceptible(self):
+		return self._susceptible
+
+	def get_infectado(self):
+		return self._infectado
+
+	def get_recuperado(self):
+		return self._recuperado
+
+	def get_dias_enfermo(self):
+		return self._dias_enfermo
+
 #-----------------------------------------------------------
 	#Setters
 
@@ -74,13 +93,33 @@ class Cuidadano:
 	def set_muerto(self, muerto):
 		self._muerto = muerto
 
+	def set_susceptible(self, susceptible):
+		self._susceptible = susceptible
+
+	def set_infectado(self, infectado):
+		self._infectado = infectado
+
+	def set_recuperado(self, recuperdao):
+		self._recuperado = recuperado
+
+	def set_dias_enfermo(self, dias_enfermo):
+		self.__dias_enfermo = dias_enfermo
+
+
 #-----------------------------------------------------------
 	#Mètodos
+
+	def aumentar_dias_enfermo(self):
+
+		if self.get_infectado() == True:
+
+			self.set_dias_enfermo(self.get_dias_enfermo() + 1)
 
 	def infectado(self):
 		#metodo infectar: si se infecta su estado pasa de True(sano/muerto) a False(infectado)
 
 		#Si NO es inmune (es decir que no estuvo infectado), se infecta
+		"""
 		if self.get_inmune == False:
 
 			self.set_estado() == False #False = infectado
@@ -89,13 +128,15 @@ class Cuidadano:
 		else:
 			self.set_estado() == True #queda como True = sano/muerto
 
-		"""
+		
 		okei esto de arriba se podrìa resumir a:
 		'si el inmune es Falso(no inmune), el estado cambia a Falso (infectado)'
 
 		if not self._inmune:
 			self._estado = False #infectado
 		"""
+		self.set_infectado(True)
+		self.set_dias_enfermo(1)
 
 
 	def no_infectado(self):
@@ -116,5 +157,7 @@ class Cuidadano:
 		self._familia.append(familia)
 
 	def esta_muerto(self):
-		self.set_muerto() == True
+		self.set_muerto(True)
 		return True
+
+
