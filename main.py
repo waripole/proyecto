@@ -279,10 +279,10 @@ class MainWindow(Gtk.ApplicationWindow):
         self.about.set_transient_for(self)
         self.about.set_modal(self)
 
-        self.about.set_authors(["Sofia"])
-        self.about.set_copyright("Copyright 2024 Sofia")
+        self.about.set_authors(["Sofia Mieres Vignolo"])
+        self.about.set_copyright("Copyright 2024 Sofia Mieres Vignolo")
         self.about.set_license_type(Gtk.License.GPL_3_0)
-        self.about.set_website("https:")
+        self.about.set_website("https://admision.utalca.cl/carreras/ingenieria-civil-en-bioinformatica/")
         self.about.set_website_label("ICB")
         self.about.set_version("1.0")
         self.about.set_logo_icon_name("chuu_do_loona")
