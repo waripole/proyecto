@@ -7,8 +7,6 @@ import pandas as pd
 
 from z_nombre_apellidos import crear_lista
 
-#---------------------------------------------------------------------------
-
 import sys
 import gi
 import csv
@@ -17,19 +15,8 @@ gi.require_version('Gtk', '4.0')
 from gi.repository import Gio, GObject, Gtk, Gdk, GdkPixbuf, GLib
 
 
-def cargar_datos_np(filepath):
-    
-    df = pd.read_csv(filepath)
 
-    # Para mostrar sòlo los primeros 1o ciudadanos
-    primeros_diez = df.head(10)
-
-    # Convertir a numpy array
-    datos_numpy = primeros_diez.to_numpy()
-
-    return datos_numpy
-
-
+#---------------------------------------------------------------------------
 
 
 def on_quit_action(self, _action):
@@ -147,7 +134,7 @@ class MainWindow(Gtk.ApplicationWindow):
         menu.append("Salir", "win.quit")
 
 #---------------------------------------------------------------------
-    #Botones header bar
+    # Botones header bar
 
         self.boton_avanzar = Gtk.Button()
         self.boton_avanzar.set_label('Dar un paso')
@@ -155,6 +142,7 @@ class MainWindow(Gtk.ApplicationWindow):
         header_bar.pack_start(self.boton_avanzar)
 
 #---------------------------------------------------------------------
+	# Botones estèticos
 
         self.boton_dia = Gtk.Button()
         self.boton_dia.set_label("Dia: 0")
@@ -228,7 +216,6 @@ class MainWindow(Gtk.ApplicationWindow):
     	self.boton_i.set_label(f"{infectados}")    
 
 
-
     def mostrar_recuperados(self):
 
     	recuperados = self.simulador.get_comunidad().get_recuperados()
@@ -236,7 +223,7 @@ class MainWindow(Gtk.ApplicationWindow):
     	self.boton_r.set_label(f"{recuperados}")
 
 
-
+    # Mostra cuàntos ciudadanos estàn muertos (de los recuperados)
     def mostrar_muertos(self):
 
     	muertos = self.simulador.get_comunidad().morir_o_no()
@@ -244,14 +231,29 @@ class MainWindow(Gtk.ApplicationWindow):
     	self.boton_muertos.set_label(f"Muertos: {muertos}")
 
 
+	# lee un archivo cvs con pandas y se toman las primeras 10 lineas
+	# luego esto pasa a la funciòn cargar_cvs que
+	# actualizaà el TreeView
+    def cargar_datos_np(self,filepath):
+
+        df = pd.read_csv(filepath)
+
+		# Para mostrar sòlo los primeros 1o ciudadanos
+        primeros_diez = df.head(10)
+
+		# Convertir a np array
+        datos_numpy = primeros_diez.to_numpy()
+
+        return datos_numpy
+
 
     # Actualizar el cvs en cada paso
-    def cargar_csv(self, filepath): #1111111111111111111111111111111111111111111111111
+    def cargar_csv(self, filepath): 
 
     	# Para que se vayan actualizado los datos y no agregando al liststore
     	self.liststore.clear()
 
-    	datos_numpy = cargar_datos_np(filepath)
+    	datos_numpy = self.cargar_datos_np(filepath)
 
     	for row in datos_numpy:
         	self.liststore.append([str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]), str(row[5])])
