@@ -24,7 +24,7 @@ class Simulador:
 
 		self._comunidad.aumentar_dias_enfermo()
 		self._comunidad.contagiar_grupo()
-		self._comunidad.crear_familias()
+		#self._comunidad.crear_familias() #1111111111111111
 		#print("sesupone que se contagiaron los grpos")
 		self._comunidad.morir_o_no()
 		self._comunidad.ciudadanos_inmunes(self._comunidad.get_enfermedad())

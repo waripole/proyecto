@@ -325,7 +325,7 @@ class MyApp(Gtk.Application):
 
 crear_lista("lista.csv")
 
-covid = Enfermedad( infeccion_probable = 0.3 , promedio_pasos = 5, enfermo = False, contador = 0)
+covid = Enfermedad( infeccion_probable = 0.3 , promedio_pasos = 10, enfermo = False, contador = 0)
 
 talca = Comunidad( num_cuidadano = 20000,
 					promedio_conexion_fisica = 3,
@@ -339,6 +339,8 @@ talca = Comunidad( num_cuidadano = 20000,
 
 
 talca.cvs_actualizado()
+
+talca.crear_familias()
 
 # Probando para ver si se crean correctamente - sim
 #talca.imprimir_cuidadanos()
