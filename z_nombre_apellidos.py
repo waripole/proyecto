@@ -1,5 +1,9 @@
-import csv
+#import csv
 import random
+import pandas as pd
+import numpy as np
+
+from comunidad import Comunidad
 
 # Lista de nombres y apellidos
 nombres = ["Gloria", "Isidora", "Florencia", "Antonella", "Emilia", "Martina", "Valentina", "Josefa", "Amanda", "Laura",
@@ -7,11 +11,11 @@ nombres = ["Gloria", "Isidora", "Florencia", "Antonella", "Emilia", "Martina", "
     "Julieta", "Constanza", "Francisca", "Fernanda", "Alma", "Isabel", "Mía", "María", "Ana", "Elena",
     "Mariana", "Victoria", "Olivia", "Daniela", "Samantha", "Violeta", "Alicia", "Eva", "Paula", "Mónica",
     "Pilar", "Clara", "Gabriela", "Milagros", "Rocío", "Sara", "Lola", "Adriana", "Julia", "Irene",
-    "Martín", "Mateo", "Sebastián", "Benjamín", "Santiago", "Matías", "Tomás", "Lucas", "Agustín", "Joaquín",
-    "Maximiliano", "Vicente", "Gabriel", "Emilio", "Cristóbal", "Renato", "Felipe", "Samuel", "Emiliano", "Diego",
-    "Francisco", "Daniel", "Andrés", "Leonardo", "Pablo", "Simón", "Miguel", "Alejandro", "Damián", "Javier",
-    "Nicolás", "Bruno", "Rodrigo", "Antonio", "Pedro", "Álvaro", "Esteban", "Rafael", "Ignacio", "Raúl",
-    "Arturo", "Sergio", "Eduardo", "Enzo", "Ricardo", "Hernán", 'Ian', "Juan", "Hugo", "Carlos",
+    "Heejin", "Hyunjin", "Vivi", "Haseul", "Yeojin", "Jinsoul", "Kimlip", "Choerry", "Chuu", "Gowon",
+    "OliviaHye", "Yves", "Gabriel", "Emilio", "Cristóbal", "Renato", "Felipe", "Samuel", "Emiliano", "Diego",
+    "Francisco", "Daniel", "Andrés", "Leonardo", "Pablo", "Simón", "Miguel", "Alejandro", "Tzuyu", "Javier",
+    "Nicolás", "Nayeon", "Rodrigo", "Sana", "Momo", "Álvaro", "Esteban", "Rafael", "Ignacio", "Raúl",
+    "Arturo", "Sergio", "Eduardo", "Enzo", "Ricardo", "Mina", 'Ian', "Juan", "Hugo", "Carlos",
     "Alexandre", "Antoine", "Baptiste", "Benoît", "Charles", "Christophe", "Clément", "Damien", "Daniel", "David",
     "Denis", "Didier", "Édouard", "Émile", "Emmanuel", "Étienne", "Fabien", "François", "Frédéric", "Gabriel",
     "Gaëtan", "Georges", "Guillaume", "Henri", "Hugo", "Jacques", "Jean", "Jérôme", "Julien", "Laurent",
@@ -53,21 +57,27 @@ apellidos = ["Mieres", "Muñoz", "Rojas", "Díaz", "Pérez", "Soto", "Contreras"
     "Griffin", "Wallace", "Moreno", "West", "Cole", "Hayes", "Bryant", "Herrera", "Gibson", "Ellis",
     "Tran", "Medina", "Aguilar", "Stevens", "Murray", "Ford", "Castro", "Marshall", "Owens", "Harrison"]
 
-# Generar 1000 nombres y apellidos aleatorios
-nombres_aleatorios = random.choices( nombres , k =20000)
-apellidos_aleatorios = random.choices( apellidos , k =20000)
+def crear_lista(archivo_csv):
 
-# Crear lista de nombres y apellidos combinados
-#nombres_apellidos = list(zip( nombres_aleatorios , apellidos_aleatorios ))
+    a = 20000
 
-#se crea el id, nombre y apellido
-ide_nombres_apellidos = [(f'{i+1}', nombre, apellido) for i, (nombre, apellido) in enumerate(zip(nombres_aleatorios, apellidos_aleatorios))]
+    # Generar nombres y apellidos aleatorios
+    nombres_aleatorios = np.random.choice( nombres , a)
+    apellidos_aleatorios = np.random.choice( apellidos , a)
 
-# Escribir los nombres y apellidos en un archivo CSV
-with open("lista.csv", "w", newline ="") as file :
+    # Crear lista de nombres y apellidos combinados
+    #nombres_apellidos = list(zip( nombres_aleatorios , apellidos_aleatorios ))
 
-	writer = csv.writer(file)
-	writer.writerow(["id " , " nombre ", " apellido "])
-	writer.writerows( ide_nombres_apellidos )
+    #se crea el id, nombre y apellido
+    #ide_nombres_apellidos = [(f'{i+1}', nombre, apellido) for i, (nombre, apellido) in enumerate(zip(nombres_aleatorios, apellidos_aleatorios))]
 
-print("Archivo CSV generado con èxito.")
+    df = pd.DataFrame({
+        'id': np.arange(1, a + 1),
+        'nombre': nombres_aleatorios,
+        'apellido': apellidos_aleatorios
+    })
+
+    # Escribir los nombres y apellidos en un archivo CSV
+    df.to_csv(archivo_csv, index=False)
+
+    print("Archivo CSV generado con èxito")

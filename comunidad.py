@@ -6,13 +6,56 @@ import csv
 from cuidadano import Cuidadano
 from enfermedad import Enfermedad
 
-"""Abrir el archivo con los nombres
-file = "lista.csv"
-data_frame = pd.read_csv(file)
-print(data_frame.head())
-"""
+nombres = ["Gloria", "Isidora", "Florencia", "Antonella", "Emilia", "Martina", "Valentina", "Josefa", "Amanda", "Laura",
+    "Agustina", "Camila", "Catalina", "Antonia", "Gabriela", "Margarita", "Rafaela", "Renata", "Lucía", "Josefina",
+    "Julieta", "Constanza", "Francisca", "Fernanda", "Alma", "Isabel", "Mía", "María", "Ana", "Elena",
+    "Mariana", "Victoria", "Olivia", "Daniela", "Samantha", "Violeta", "Alicia", "Eva", "Paula", "Mónica",
+    "Pilar", "Clara", "Gabriela", "Milagros", "Rocío", "Sara", "Lola", "Adriana", "Julia", "Irene",
+    "Heejin", "Hyunjin", "Vivi", "Haseul", "Yeojin", "Jinsoul", "Kimlip", "Choerry", "Chuu", "Gowon",
+    "OliviaHye", "Yves", "Gabriel", "Emilio", "Cristóbal", "Renato", "Felipe", "Samuel", "Emiliano", "Diego",
+    "Francisco", "Daniel", "Andrés", "Leonardo", "Pablo", "Simón", "Miguel", "Alejandro", "Tzuyu", "Javier",
+    "Nicolás", "Nayeon", "Rodrigo", "Sana", "Momo", "Álvaro", "Esteban", "Rafael", "Ignacio", "Raúl",
+    "Arturo", "Sergio", "Eduardo", "Enzo", "Ricardo", "Mina", 'Ian', "Juan", "Hugo", "Carlos",
+    "Alexandre", "Antoine", "Baptiste", "Benoît", "Charles", "Christophe", "Clément", "Damien", "Daniel", "David",
+    "Denis", "Didier", "Édouard", "Émile", "Emmanuel", "Étienne", "Fabien", "François", "Frédéric", "Gabriel",
+    "Gaëtan", "Georges", "Guillaume", "Henri", "Hugo", "Jacques", "Jean", "Jérôme", "Julien", "Laurent",
+    "Louis", "Lucas", "Marc", "Martin", "Mathieu", "Michel", "Nicolas", "Olivier", "Pascal", "Patrick",
+    "Paul", "Philippe", "Pierre", "Quentin", "Raphaël", "Raymond", "Rémi", "René", "Richard", "Robert",
+    "Romain", "Samuel", "Sébastien", "Simon", "Stéphane", "Théo", "Thomas", "Timothée", "Tristan", "Victor",
+    "Adèle", "Agnès", "Alice", "Amélie", "Anaïs", "Anne", "Audrey", "Aurélie", "Aurore", "Camille",
+    "Caroline", "Catherine", "Cécile", "Chantal", "Charlotte", "Christine", "Claire", "Clara", "Coralie", "Corinne",
+    "Delphine", "Élise", "Élodie", "Émilie", "Emma", "Estelle", "Fanny", "Florence", "Françoise", "Gabrielle",
+    "Geneviève", "Hélène", "Inès", "Isabelle", "Jacqueline", "Jeanne", "Joséphine", "Julie", "Juliette", "Laetitia",
+    "Laurence", "Léa", "Liliane", "Louise", "Madeleine", "Manon", "Margaux", "Marguerite", "Marie", "Marine",
+    "Marion", "Martine", "Mathilde", "Mélanie", "Monique", "Nadine", "Nathalie", "Nicole", "Océane", "Odile",
+    "Olivia", "Patricia", "Pauline", "Renée", "Sandrine", "Sophie", "Suzanne", "Thérèse", "Valérie", "Véronique",
+    "Virginie", "Yvonne"]
 
-# UTILIZAR BIEN LOS TIPOS DE ATRIBUTOS (ESPECIFCAR)
+
+apellidos = ["Mieres", "Muñoz", "Rojas", "Díaz", "Pérez", "Soto", "Contreras", "Silva", "Martínez", "Sepúlveda",
+    "Morales", "Vignolo", "López", "Fuentes", "Hernández", "Torres", "Araya", "Flores", "Espinoza", "Valenzuela",
+    "Ramírez", "Castillo", "Carrasco", "Reyes", "Gutiérrez", "Castro", "Pizarro", "Álvarez", "Vásquez", "Tapia",
+    "Fernández", "Sánchez", "Gómez", "Herrera", "Vargas", "Guzmán", "Riquelme", "Verdugo", "Torres", "Molina",
+    "Vega", "Campos", "Orellana", "Maldonado", "Bravo", "Escobar", "Cortés", "Núñez", "Figueroa", "Poblete",
+    "Rivera", "Salazar", "Cárdenas", "Miranda", "Martín", "Varela", "Olivares", "Zúñiga", "Saavedra", "Arias",
+    "Vidal", "Parra", "Salinas", "Moreno", "Ortiz", "Gallardo", "Palma", "Vera", "Navarro", "Ramos",
+    "Serrano", "Valdés", "Peña", "San Martín", "Cornejo", "Pineda", "Ávila", "Montoya", "Bustos", "Leiva",
+    "Cabrera", "Alvarado", "Vega", "Sáez", "Donoso", "Poblete", "Cáceres", "Mejías", "Villanueva", "Vergara",
+    "Farías", "Campos", "Mora", "Venegas", "Godoy", "Mendoza", "Rojas", "Ojeda", "Chávez", "Aguilera",
+    "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez",
+    "Hernandez", "Lopez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee",
+    "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", "Ramirez", "Lewis", "Robinson", "Walker",
+    "Young", "Allen", "King", "Wright", "Scott", "Torres", "Nguyen", "Hill", "Flores", "Green",
+    "Adams", "Nelson", "Baker", "Hall", "Rivera", "Campbell", "Mitchell", "Carter", "Roberts", "Gomez",
+    "Phillips", "Evans", "Turner", "Diaz", "Parker", "Cruz", "Edwards", "Collins", "Reyes", "Stewart",
+    "Morris", "Morales", "Murphy", "Cook", "Rogers", "Gutierrez", "Ortiz", "Morgan", "Cooper", "Peterson",
+    "Bailey", "Reed", "Kelly", "Howard", "Ramos", "Kim", "Cox", "Ward", "Richardson", "Watson",
+    "Brooks", "Chavez", "Wood", "James", "Bennett", "Gray", "Mendoza", "Ruiz", "Hughes", "Price",
+    "Alvarez", "Castillo", "Sanders", "Patel", "Myers", "Long", "Ross", "Foster", "Jimenez", "Powell",
+    "Jenkins", "Perry", "Russell", "Sullivan", "Bell", "Coleman", "Butler", "Henderson", "Barnes", "Gonzalez",
+    "Fisher", "Vasquez", "Simmons", "Romero", "Jordan", "Patterson", "Alexander", "Hamilton", "Graham", "Reynolds",
+    "Griffin", "Wallace", "Moreno", "West", "Cole", "Hayes", "Bryant", "Herrera", "Gibson", "Ellis",
+    "Tran", "Medina", "Aguilar", "Stevens", "Murray", "Ford", "Castro", "Marshall", "Owens", "Harrison"]
 
 class Comunidad:
 	#Atributos clase comunidad:
@@ -104,34 +147,34 @@ class Comunidad:
 	#Mètodos
 
 	def crear_ciudadanos(self, archivo_csv):
+
 		data_frame = pd.read_csv(archivo_csv)
 
-		#Array para contener a los ahora cuidadanos
-		array_ciudadanos = []
+		data_array = data_frame.to_numpy()
+
 
 		#crear objeto de tipo Cuidadan con los paràmetros: comunidad, ide, nombre, apellido, familia, estado, enfermedad = None, inmune
-		for index, row in data_frame.iterrows():
-			ciudadano = Cuidadano(ide = row['id '],
-									nombre = row[' nombre '],
-									apellido = row[' apellido '],
-									familia = self,
-									comunidad = self,
-									estado = True,			#Estado incial de sano
-									enfermedad = None,		#Enfermedad inicial es ninguna
-									inmune = False,			#Parte como no-inmune
-									muerto = False,
-									susceptible = True,
-									infectado = False,
-									recuperado = False,
-									dias_enfermo = 0)
-
-			array_ciudadanos.append(ciudadano)
+		array_ciudadanos = np.array([Cuidadano(ide=row[0],
+												nombre = row[1],
+												apellido = row[2],
+												familia = self,
+												comunidad = self,
+												estado = True,			#Estado incial de sano
+												enfermedad = None,		#Enfermedad inicial es ninguna
+												inmune = False,			#Parte como no-inmune
+												muerto = False,
+												susceptible = True,
+												infectado = False,
+												recuperado = False,
+												dias_enfermo = 0)
+												for row in data_array])
 
 		#probando
-		#print(f"SE CREO UN SIUDADANO: id={ciudadano.get_ide()}, name={ciudadano.get_nombre()}, apellido={ciudadano.get_apellido()}, familia={ciudadano.get_familia()}, estado={ciudadano.get_estado()}, inmune?={ciudadano.get_inmune()}")
+		#print(f"SE CREO UN cIUDADANO: id={ciudadano.get_ide()}, name={ciudadano.get_nombre()}, apellido={ciudadano.get_apellido()}, familia={ciudadano.get_familia()}, estado={ciudadano.get_estado()}, inmune?={ciudadano.get_inmune()}")
 
 		return array_ciudadanos
-	
+
+
 
 
 	#probando para ver si se imprimen correctamente - sim
@@ -156,7 +199,7 @@ class Comunidad:
 					ciudadano.set_infectado(True)
 					ciudadano.set_dias_enfermo(1)
 
-					print(f"infectado ({a}) inicial el wons: {ciudadano.get_ide()} que se llama {ciudadano.get_nombre()} {ciudadano.get_apellido()}")
+					#print(f"infectado ({a}) inicial : {ciudadano.get_ide()} que se llama {ciudadano.get_nombre()} {ciudadano.get_apellido()}")
 			
 			a = a + 1
 
@@ -187,7 +230,7 @@ class Comunidad:
 
 			numero_i_x_grupo = random.choice(numero_conexiones)
 
-			grupo = [ciudadano]
+			grupo = np.array([ciudadano])
 
 			while len(grupo) < numero_i_x_grupo:
 
@@ -195,7 +238,7 @@ class Comunidad:
 
 				if ciudadano_i != ciudadano and ciudadano_i not in grupo:
 
-					grupo.append(ciudadano_i)
+					grupo = np.append(grupo, ciudadano_i)
 
 			self._familias.append(grupo)
 
@@ -205,7 +248,6 @@ class Comunidad:
 
 
 
-	# esto quedaria biem en un cvs !!!
 	def imprimir_grupos(self):
 
 		"""
@@ -252,7 +294,7 @@ class Comunidad:
 							if opcion_selecionada == "contagiado":
 								ciudadano_i.infectado()
 
-								print(f"{ciudadano.get_ide()} infectò a {ciudadano_i.get_ide()}")
+								#print(f"{ciudadano.get_ide()} infectò a {ciudadano_i.get_ide()}")
 
 								break
 
@@ -276,17 +318,22 @@ class Comunidad:
 
 				if opcion_selecionada == "muere":
 
-					ciudadano.set_muerto(True)
-					ciudadano.set_estado(True)
+					ciudadano.esta_muerto()
+					#ciudadano.set_muerto(True)
+					#ciudadano.set_estado(True)
+					#self.set_muertos(self.get_muertos() + 1)
+					#self.set_muertos() = self.get_muertos() + 1
 
-					print(f"el wons ide {ciudadano.get_ide()} se muriò")
+					#print(f"El ciudadano con ide: {ciudadano.get_ide()} se muriò")
 
 			if ciudadano.get_muerto() == True:
 
 				contador_ciudadanos_muertos = contador_ciudadanos_muertos + 1
 
 
-		print(f"Currently muertos: {contador_ciudadanos_muertos}")
+		#print(f"Cantidad muertos actuales: {contador_ciudadanos_muertos}")
+
+		return contador_ciudadanos_muertos
 
 
 
@@ -297,16 +344,16 @@ class Comunidad:
 
 			if ciudadano.get_infectado()== True:
 
-				ciudadano.aumentar_dias_enfermo()
+				ciudadano.aumentar_dias()
 
 				#print(f"El ciudadano con ide: {ciudadano.get_ide()} lleva {ciudadano.get_dias_enfermo()} dias enfermo")
 
 
-	def ciudadanos_inmunes(self, Enfermedad):
+	def ciudadanos_inmunes(self, enfermedad):
 
 		for ciudadano in self._ciudadanos:
 
-			if ciudadano.get_dias_enfermo() == Enfermedad.get_promedio_pasos():
+			if ciudadano.get_dias_enfermo() == enfermedad.get_promedio_pasos():
 
 				# ya no esta infectado, es RECUPERADO y no es susceptible
 
@@ -315,8 +362,6 @@ class Comunidad:
 				ciudadano.set_susceptible(False)
 
 				#print(f"el persona con ide {ciudadano.get_ide()} està recuperado")
-
-
 
 
 
@@ -329,8 +374,6 @@ class Comunidad:
 		
 		Por c/u ciudadano en la comunidad, si està sano (o muerto - ver eso xd)
 		+1 la cantidad de susceptibles
-
-		--- Esto deberìa ser por c/u paso (y todas)---
 
 		"""
 
@@ -346,7 +389,8 @@ class Comunidad:
 
 				n_susceptibles = n_susceptibles - 1
 
-		print(f"Nùmero de cuidadanos susceptibles: {n_susceptibles}")
+		#print(f"Nùmero de cuidadanos susceptibles: {n_susceptibles}")
+		return n_susceptibles
 
 
 
@@ -360,17 +404,19 @@ class Comunidad:
 
 				n_infectados = n_infectados + 1
 
-		print(f"Nùmero de ciudadanos infectados: {n_infectados}")				
+		#print(f"Nùmero de ciudadanos infectados: {n_infectados}")
+		return n_infectados		
 
 
 	def get_recuperados(self):
 
 		"""
 		Si el ciudadano es inmune, quiere decir que està recuperado y la cifra de recuperados crece,
-		por otro lado, si el ciudadano està muerto, la cifra de recuperados baja
+		
 		"""
 
 		n_recuperados = 0
+
 
 		for ciudadano in self._ciudadanos:
 
@@ -379,18 +425,19 @@ class Comunidad:
 				n_recuperados = n_recuperados + 1
 
 
-		print(f"Numero de ciudadanos recuperados: {n_recuperados}")
+		#print(f"Numero de ciudadanos recuperados: {n_recuperados}")
+
+		return n_recuperados
 
 
-# Este (o un sìmil) utilizarlo para la APP kisas
+# Este (o un sìmil) utilizarlo para la APP
 	def cvs_actualizado(self):
 
-		with open("cvs_actualizado", 'w', newline="") as file:
+		#[expresión for elemento in iterable]
 
-			writer = csv.writer(file)
-			writer.writerow(["ide", "nombre", "apellido", "Susceptible", "Infectado", "Recuperado"])
+		data = np.array([[ciudadano.get_ide(), ciudadano.get_nombre(), ciudadano.get_apellido(), ciudadano.get_susceptible(), ciudadano.get_infectado(), ciudadano.get_recuperado()] for ciudadano in self._ciudadanos])
 
-			for ciudadano in self._ciudadanos:
-				writer.writerow([ciudadano.get_ide(),ciudadano.get_nombre(),ciudadano.get_apellido(),ciudadano.get_susceptible(), ciudadano.get_infectado(), ciudadano.get_recuperado()])
+		df = pd.DataFrame(data, columns=["ide", "nombre", "apellido", "Susceptible", "Infectado", "Recuperado"])
+		df.to_csv("cvs_actualizado.csv", index=False)
 
 		print("Archivo cvs actualizado")

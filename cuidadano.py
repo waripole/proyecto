@@ -99,21 +99,23 @@ class Cuidadano:
 	def set_infectado(self, infectado):
 		self._infectado = infectado
 
-	def set_recuperado(self, recuperdao):
+	def set_recuperado(self, recuperado):
 		self._recuperado = recuperado
 
 	def set_dias_enfermo(self, dias_enfermo):
-		self.__dias_enfermo = dias_enfermo
+		self._dias_enfermo = dias_enfermo
 
 
 #-----------------------------------------------------------
 	#Mètodos
 
-	def aumentar_dias_enfermo(self):
+	def aumentar_dias(self):
 
 		if self.get_infectado() == True:
 
 			self.set_dias_enfermo(self.get_dias_enfermo() + 1)
+
+		return self._dias_enfermo
 
 	def infectado(self):
 		#metodo infectar: si se infecta su estado pasa de True(sano/muerto) a False(infectado)

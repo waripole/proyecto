@@ -2,7 +2,7 @@ class Enfermedad:
 	#Atributos clase enfermedad:
 
 	def __init__(self, infeccion_probable, promedio_pasos, enfermo, contador):
-		self._infeccion_probable = infeccion_probable 			#Probablididad de que se enferme
+		self._infeccion_probable = infeccion_probable			#Probablididad de que se enferme
 		self._promedio_pasos = promedio_pasos 					#Pasos hasta que se sana o muere
 		self._enfermo = False #?jenesepà						Si està enfermo o no - True si / False no				
 		self._contador = 0										#Contador de pasos
@@ -41,3 +41,9 @@ class Enfermedad:
 	def step(self):
 		#Da un 'pasito' - contador de pasos aumenta +1
 		self._contador = self._contador + 1 
+
+
+
+
+
+

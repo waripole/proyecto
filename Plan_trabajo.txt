@@ -1,0 +1,139 @@
+Plan de trabajo y objetivos:
+
+SIR
+	S: susceptibles
+	I: infectados
+	R: recuperados (vivos + muertos + inmunes) - sòlo muertos e inmunes
+
+- definir clases necesarias (Simulador,
+							 Comunidad,
+							 Cuidadano,
+							 Enfermedad,
+							 main)
+
+- definir atributos para cada clase
+
+	Simulador: comunidad
+
+	Comunidad: num_cuidadano,
+				promedio_conexion_fisica,
+				enfermedad,num_infectados,
+				probabilidad_conexion_fisica,
+				archivo_csv
+
+	Cuidadano: comunidad,
+				ide,
+				nombre, 
+				apellido, 
+				familia, 
+				estado, 
+				enfermedad,
+				inmune
+
+	Enfermedad: infeccion_probable,
+				promedio_pasos,
+				enfermo ?,
+				contador
+
+
+- definir mètodos a utilizar para cada clase  (ademàs de los getter y setter)
+
+	Simulador: correr,
+
+	Comunidad: crear_ciudadanos,
+				imprimir_cuidadanos,
+				infectar_random,
+				infectar_estrecho,
+				crear_familia,
+				imprimir_datos,
+				+ posiblemente
+
+	Cuidadano: infectado,
+				no_infectado,
+				muerto,
+				inmune,
+
+	Enfermedad: step,
+
+- definir/usar un tipo de distribuciòn
+
+	gauss/normal? jenesepà
+
+- objetivos:
+	
+	*no caer en la locura màxima
+
+	25 / junio -> estudiar modelo, 
+					buscar informaciòn (modelo SIR, pandas, numpy, matplotlib), 
+					recursos en lìnea, 
+					definir clases, 
+					definir mètodos,
+					trabajar archivo csv,
+					avanzar base del proyecto,
+					crear objetos tipo Cuidadano,
+					iniciar base interfaz gràfica, 
+
+	2 / julio -> utilizar matplotlib para graficar,
+					avanzar proyecto al menos màs de la mitad,
+					avanzar interfaz gràfica,
+
+	10 / julio -> terminar interfaz gràfica,
+					revisar posibles errores, 
+					optimizar el còdigo,
+					terminar el comentado,
+					revisar uso de numpy y pandas
+
+					Fecha entrega (10/julio)
+
+- observaciones
+	
+	aplicar modelo SIR
+	pasos -> dìas
+
+
+	basar id en apellido, nùmero de familia(i) y cantidad integrantes? mmm nose - crear id que no sea tipo i+1 -> crear mètodo/funciòn para la creaciòn del id
+	ojo probabilidad de que muera
+	arreglar contadores tipo total de x_ciudadanos (infectados, muertos, etc)
+	cada step ir cambiando el cvs usado para la interfàz tipo actualizar
+	determinar promedio de conexiones con x personas
+	pacientes 0
+
+
+
+
+
+* material de apoyo:
+	
+	https://pythontutor.com/render.html#mode=edit
+	
+	https://www.youtube.com/watch?v=mwJXjxMTwAw
+
+	https://scientific-python.readthedocs.io/en/latest/notebooks_rst/3_Ordinary_Differential_Equations/02_Examples/Epidemic_model_SIR.html
+
+	https://aprendeconalf.es/docencia/python/manual/pandas/
+
+	https://www.freecodecamp.org/espanol/news/la-guia-definitiva-del-paquete-numpy-para-computacion-cientifica-en-python/
+
+	https://pybonacci.org/2020/09/16/modelo-sir-modelo-epidemiologico-con-python/
+
+	https://www.w3schools.com/python/pandas/ref_df_iterrows.asp
+
+	https://youtu.be/5ftC7ctqwxk?si=dMtGs_ZdpZ28rPQi
+
+	https://youtu.be/E0oMehjzEVQ?si=DxMXQmEjKE1ChQFm
+
+
+
+
+
+
+*	yo estaba pensando q tipo se hagan familias por apellido 
+	de eso sacar como la cantidad de contactos "estrechos" -> aumenta la prob
+
+	tipo prob de q se enferme con contacto dela comunida (%x)
+	y aumente 
+
+	* distribuciòn normal random con numpy / similar al gauss
+	numpy.random tb tb()
+
+	a.normal(size=10) #muestra de 10 elementos
