@@ -29,7 +29,8 @@ class Comunidad:
 
 		self._ciudadanos = self.crear_ciudadanos(archivo_csv)
 
-		# Media y desviaciòn estandar de las familias de la comunidad
+		# Media y desviaciòn estandar de las familias de la comunidad - Se utilizaban en crear_familias pero se cambiò
+		# la modalidad de la funciòn por lo que ya no son necesarias
 		self._u = u
 		self._sigma = sigma
 
@@ -96,6 +97,13 @@ class Comunidad:
 #-----------------------------------------------------------
 	#Mètodos
 
+	"""
+	Los ciudadanos se crean al leer un archivo csv (lista.csv) que contiene un ID, nombre y apellido
+	para la cantidad de personas en la comunidad (en este momento 20.000) asignando a cada objeto de tipo
+	ciudadano los atributos de la lista (ide, nombre y apellido) ademàs de settear el resto de atributos
+	(por ejemplo, estado, familia, susceptible, infectado, recuperado, etc.). El archivo se crea antes. 
+	"""
+
 	def crear_ciudadanos(self, archivo_csv):
 
 		data_frame = pd.read_csv(archivo_csv)
@@ -127,12 +135,24 @@ class Comunidad:
 
 
 
-	#probando para ver si se imprimen correctamente - sim
+	# Probando para ver si se crean los ciudadanos correctamente
 	def imprimir_cuidadanos(self):
 		for ciudadano in self._ciudadanos:
 			print(f"id={ciudadano.get_ide()}, name={ciudadano.get_nombre()}, apellido={ciudadano.get_apellido()}, familia={ciudadano.get_familia()}, estado={ciudadano.get_estado()}, inmune?={ciudadano.get_inmune()}")
 
 
+
+
+	"""
+	Funciòn para infectar de manera aleatorea a ciudadanos para que sean los 'casos cero' de la comunidad.
+	Se obtiene un ID random entre la cantidad de personas y se infectan tantas personas se declare en el main, 
+	por el momento son 3.
+
+	Una vez seleccionado el ID de la persona, cambian sus atributos de:
+		estado -> False , significando que està infectado
+		infectado -> True , significando que està infectado (SIR)
+		dias_enfermo -> 1 , parte en 1 significando que lleva 1 dia enfermo
+	"""
 	def infectar_random(self):
 
 		a = 0
@@ -154,24 +174,23 @@ class Comunidad:
 			a = a + 1
 
 
+
+
 # familia -> grupo
+	"""
+	Al inicio querìa crear familias segùn apellidos pero me decidì por la creaciòn de grupos para
+	generar mayor aleatoriedad en la interacciòn de las personas (por eso el familia -> grupo).
+
+	Para crear las familias se genera un numero random de conexiones para cada ciudadano, esto va en un 
+	rango de 1 (grupo compuesto por la misma persona) hasta el màximo que corresponde al promedio_conexion_fisica
+	de la comunidad. Este valor serà la cantidad de integrantes del grupo, que se irà complentando en el ciclo while
+	y luego agregando al grupo si es que la person a agregar (ciudadano_i) no es el ciudadano y tampoco està en el grupo.
+
+	Luego se le asigna el grupo al ciudadano y este se agrega al atributo familias de la comunidad.
+
+	"""
 
 	def crear_familias(self):
-		"""
-		se necesita:
-			- numero de integrantes en un grupo
-			- numero de grupos a los que puede pertenecer un ciudadano (sample)
-			- largo de los grupos
-			- que se completen los grupos (y no este el 1er ciudadano)
-			- asignar el grupo al ciudadano (agregar_grupo_contacto/set_familia)
-			- agregar el grupo a los grupoS (Comunidad)
-
-			kreo que se podrìà hacer màs fàcil eligiendo un largo random para los grupos y
-			que se eliga al azar de los ciudadanos q vayan dentro 
-			# 8 y x numero (ej1.5)
-
-		"""
-#----------------------------------------------------
 
 		maximo = self.get_promedio_conexion_fisica()
 		numero_conexiones = np.random.randint(1, maximo, self._num_cuidadano)
@@ -197,7 +216,7 @@ class Comunidad:
 		return self._familias
 
 
-
+	# Probando para ver si se crean los grupos correctamente
 	def imprimir_grupos(self):
 
 		"""
@@ -219,6 +238,16 @@ class Comunidad:
 
 				print("............")
 
+
+	"""
+	Funciòn para que se produzcan contagios en los grupos. 
+
+	Primero, mediante el ciclo for, se accede a cada uno de los grupos, luego mediante otro ciclo for, se accede a
+	cada integrante del grupo, si es que uno de los integrantes està infectado (if) y de acuerdo a una probabilidad dada por
+	el atributo de infecciòn_probable de la enfermedad, se infectarà (o quizàs no) a un integrante al azar del grupo,
+	comprobando que la persona a infectar (ciudadano_i) no sea el que va a infectar (ciudadano), ademàs de que este sea susceptible 
+	(que no estè recuperado) y no este infectado.
+	"""
 
 	def contagiar_grupo(self):
 
@@ -249,12 +278,19 @@ class Comunidad:
 								break
 
 
-	def morir_o_no(self):
+	"""
+	Funciòn para determinar si un ciudadano muere o no. 
 
-		"""
-		el ciudadano puede morir en cualquier transcurso de los pasos (dìas)
-		darle una prob para morir c/dìa
-		"""
+	El ciudadano puede morir en cualquier dia del transcurso de la enfermedad, en otras palabras, en cada paso hay
+	una probabilidad de que muera.
+
+	Para ello nuevamente se utilizan probabilidades, siendo la probabilidad de morir muy baja (0.1%).
+
+	Se recorren los ciudadanos de la comunidad y si està infectado entonces se elige con un random si esque muere
+	o vive. Si muere, entonces se llama a la funciòn esta_muerto() que cambia su atributo a muerto.
+
+	"""
+	def morir_o_no(self):
 
 		opciones = ["vive", "muere"]
 		probabilidades = [1-0.001, 0.001]
@@ -287,7 +323,13 @@ class Comunidad:
 
 
 
-	# Aumentar los dìas que el ciudadano lleva enfermo
+
+	"""
+	Funciòn para aumentar los dias que un ciudadano con la enfermedad/virus lleva enfermo. 
+
+	Se recorren los ciudadanos y si està infectado entonces se llama a la funciòn aumentar_dias() que le suma
+	1 dia al atributo dias_enfermo del ciudadano. 
+	"""
 	def aumentar_dias_enfermo(self):
 
 		for ciudadano in self._ciudadanos:
@@ -299,6 +341,13 @@ class Comunidad:
 				#print(f"El ciudadano con ide: {ciudadano.get_ide()} lleva {ciudadano.get_dias_enfermo()} dias enfermo")
 
 
+	"""
+	Funciòn para, luego pasado el promedio de pasos de la enfermedad en cada ciudadano (cuantos dias lleva enfermo),
+	se recupere.
+
+	Se recorren los ciudadanos y si los dias que lleva enfermo son iguales al promedio de pasos de la enfermedad, 
+	entonces su estado cambia a recuperado. 
+	"""
 	def ciudadanos_inmunes(self, enfermedad):
 
 		for ciudadano in self._ciudadanos:
@@ -316,6 +365,12 @@ class Comunidad:
 
 
 #-------------------------------------------------------------------------------c/u paso
+	"""
+	En general, son funciones para contabilizar los susceptibles, infectados y recuperados en cada paso.
+
+	Ademàs, la funciòn cvs_actualizado, en cada paso, actualiza el csv inicial para mostrar la informaciòn
+	de cada ciudadano respecto a si es susceptible, si està infectado y si esque està recuperado.
+	"""
 
 	def get_susceptibles(self):
 		"""

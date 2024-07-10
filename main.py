@@ -259,9 +259,9 @@ class MainWindow(Gtk.ApplicationWindow):
         	self.liststore.append([str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]), str(row[5])])
 
 
-
+    # Actualizar la cantidad de S/I/R, Dias, muertos cada vez que se haga un paso -> boton_avanzar
     def actualizar_todo(self, widget):
-    	#lo de SIR, Dia y CVS cada vez que se haga un paso -> boton_avanzar
+
 
     	self.on_clicked_avanzar(widget)
 
@@ -325,7 +325,9 @@ class MyApp(Gtk.Application):
 
 crear_lista("lista.csv")
 
-covid = Enfermedad( infeccion_probable = 0.3 , promedio_pasos = 10, enfermo = False, contador = 0)
+# Asignaciòn a los atributos de la enfermedad y comunidad
+
+covid = Enfermedad( infeccion_probable = 0.3 , promedio_pasos = 5, enfermo = False, contador = 0)
 
 talca = Comunidad( num_cuidadano = 20000,
 					promedio_conexion_fisica = 3,
@@ -347,7 +349,6 @@ talca.crear_familias()
 #talca.imprimir_grupos()
 
 talca.infectar_random()
-
 
 
 sim = Simulador(talca)
